@@ -1,0 +1,40 @@
+#include <stdio.h>
+
+void towerOfHanoi(int diskNumber, char source, char destination, char auxiliary)
+{
+    // Base condition
+    if (diskNumber == 1)
+    {
+        printf("Move disk %d from %c to %c\n", 1, source, destination);
+        return;
+    }
+
+    // Move n-1 disks from source to auxiliary
+    towerOfHanoi(diskNumber - 1, source, auxiliary, destination);
+
+    // Move current disk
+    printf("Transfer disk %d from %c to %c\n", diskNumber, source, destination);
+
+    // Move n-1 disks from auxiliary to destination
+    towerOfHanoi(diskNumber - 1, auxiliary, destination, source);
+}
+
+int main()
+{
+    int n;
+
+    printf("Enter number of disks: ");
+    scanf("%d", &n);
+
+    if (n <= 0)
+    {
+        printf("Invalid input\n");
+        return 0;
+    }
+
+    printf("\nSteps involved:\n");
+
+    towerOfHanoi(n, 'S', 'D', 'A');
+
+    return 0;
+}
