@@ -1,0 +1,39 @@
+#include <stdio.h>
+
+int main()
+{
+    int n;
+    int x = 0, y = 1, next;
+
+    printf("Enter total terms: ");
+    scanf("%d", &n);
+
+    if (n < 0)
+    {
+        printf("Invalid number\n");
+        return 0;
+    }
+
+    printf("Series: ");
+
+    if (n >= 1)
+        printf("%d ", x);
+
+    if (n >= 2)
+        printf("%d ", y);
+
+    for (int count = 3; count <= n; count++)
+    {
+        next = x + y;
+        printf("%d ", next);
+        x = y;
+        y = next;
+    }
+
+    if (n == 1)
+        printf("\nTerm %d = %d\n", n, x);
+    else
+        printf("\nTerm %d = %d\n", n, y);
+
+    return 0;
+}
