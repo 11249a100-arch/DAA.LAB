@@ -1,0 +1,51 @@
+#include <stdio.h>
+
+#define MAX 15
+#define INF 999999
+
+int n, cost[MAX][MAX], dp[MAX][1 << MAX];
+
+int tsp(int city, int set)
+{
+    if (set == 0)
+        return cost[city][0];
+
+    if (dp[city][set] != -1)
+        return dp[city][set];
+
+    int ans = INF;
+
+    for (int i = 0; i < n; i++)
+    {
+        if (set & (1 << i))
+        {
+            int temp = cost[city][i] + tsp(i, set & ~(1 << i));
+            if (temp < ans)
+                ans = temp;
+        }
+    }
+
+    return dp[city][set] = ans;
+}
+
+int main()
+{
+    printf("Cities: ");
+    scanf("%d", &n);
+
+    printf("Enter matrix:\n");
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            scanf("%d", &cost[i][j]);
+
+    for (int i = 0; i < MAX; i++)
+        for (int j = 0; j < (1 << MAX); j++)
+            dp[i][j] = -1;
+
+    int set = 0;
+    for (int i = 1; i < n; i++)
+        set |= (1 << i);
+
+    printf("Min cost = %d\n", tsp(0, set));
+    return 0;
+}
