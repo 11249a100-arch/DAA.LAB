@@ -1,0 +1,73 @@
+#include <stdio.h>
+
+#define V 5
+#define INF 999999
+
+int getMin(int key[], int visit[])
+{
+    int min = INF, idx = -1;
+
+    for (int i = 0; i < V; i++)
+    {
+        if (!visit[i] && key[i] < min)
+        {
+            min = key[i];
+            idx = i;
+        }
+    }
+    return idx;
+}
+
+void prim(int graph[V][V])
+{
+    int parent[V], key[V], visit[V];
+
+    for (int i = 0; i < V; i++)
+    {
+        key[i] = INF;
+        visit[i] = 0;
+    }
+
+    key[0] = 0;
+    parent[0] = -1;
+
+    for (int i = 0; i < V - 1; i++)
+    {
+        int u = getMin(key, visit);
+        visit[u] = 1;
+
+        for (int v = 0; v < V; v++)
+        {
+            if (graph[u][v] && !visit[v] && graph[u][v] < key[v])
+            {
+                parent[v] = u;
+                key[v] = graph[u][v];
+            }
+        }
+    }
+
+    int total = 0;
+    printf("Edges:\n");
+
+    for (int i = 1; i < V; i++)
+    {
+        printf("%d - %d = %d\n", parent[i], i, graph[i][parent[i]]);
+        total += graph[i][parent[i]];
+    }
+
+    printf("Cost = %d\n", total);
+}
+
+int main()
+{
+    int g[V][V] = {
+        {0,2,3,0,0},
+        {2,0,5,3,0},
+        {3,5,0,0,4},
+        {0,3,0,0,2},
+        {0,0,4,2,0}
+    };
+
+    prim(g);
+    return 0;
+}
